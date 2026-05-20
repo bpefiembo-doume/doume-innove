@@ -7,6 +7,8 @@ import Soumettre from './pages/Soumettre'
 import Projet from './pages/Projet'
 import Investisseurs from './pages/Investisseurs'
 import APropos from './pages/APropos'
+import Login from './pages/Login'
+import Admin from './pages/Admin'
 import Map from './components/Map';
 const SECTORS = ["Tous", "Agriculture", "Elevage", "Artisanat", "Commerce", "Agro-alimentaire", "Services", "Tourisme", "Numerique"];
 
@@ -113,6 +115,8 @@ export default function App() {
   const [showCarte, setShowCarte] = useState(false)
 const [showInvestisseurs, setShowInvestisseurs] = useState(false)
 const [showAPropos, setShowAPropos] = useState(false)
+const [showAdmin, setShowAdmin] = useState(false)
+const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') === 'true')
   var showForm = showFormState[0];
   var setShowForm = showFormState[1];
 
@@ -281,12 +285,15 @@ const [showAPropos, setShowAPropos] = useState(false)
          <Link style={styles.navLink} to="/carte">Carte</Link>
           <a style={styles.navLink} href="#" onClick={(e) => { e.preventDefault(); setShowInvestisseurs(!showInvestisseurs); }}>Investisseurs</a>
           <a style={styles.navLink} href="#" onClick={(e) => { e.preventDefault(); setShowAPropos(!showAPropos); }}>A propos</a>
+          <a style={{ ...styles.navLink, color: '#9CA3AF', fontSize: 12 }} href="#" onClick={(e) => { e.preventDefault(); setShowAdmin(!showAdmin); }}>⚙️</a>
         </nav>
         <button style={styles.btnPrimary} onClick={function() { setShowForm(true); }}>+ Soumettre un projet</button>
       </header>
       {showCarte && <div style={{ padding: 24 }}><Map /></div>}
 {showInvestisseurs && <Investisseurs />}
 {showAPropos && <APropos />}
+{showAdmin && !isAdmin && <Login onLogin={() => { setIsAdmin(true); }} />}
+{showAdmin && isAdmin && <Admin onLogout={() => { setIsAdmin(false); setShowAdmin(false); localStorage.removeItem('isAdmin'); }} />}
 
       <section style={{ background: "linear-gradient(135deg, #DCFCE7 0%, #F0FDF4 60%, #fff 100%)", padding: "72px 24px", textAlign: "center" }}>
         <div style={{ display: "inline-block", background: "#BBF7D0", color: "#15803D", padding: "4px 16px", borderRadius: 20, fontSize: 13, fontWeight: 600, marginBottom: 20 }}>Region de l Est - Cameroun</div>
